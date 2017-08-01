@@ -1,45 +1,29 @@
 import org.junit.Test;
 
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
+import java.util.ArrayList;
 
-/**
- * Created by mahajani on 7/31/2017.
- */
+
 class ThreadingDemo {
 
+    private int var = 0;
 
     public static void main(String[] args) {
+        //int var = 0;
+        new ThreadingDemo();
+        System.out.println("Finish");
 
 
-        Integer var = new Integer(0);
-        ValueTask valueTask = new ValueTask(var);
-        PrintTask printTask = new PrintTask(var);
+}
 
-//        BlockingQueue<Runnable> taskQueue = new ArrayBlockingQueue<>(5);
-//        taskQueue.add(valueTask);
-//        taskQueue.add(printTask);
-//
-//        Worker1 workerThread1 = new Worker1(taskQueue);
-//        //Worker2 workerThread2 = new Worker2(taskQueue);
-//
-//        workerThread1.start();
-//        //workerThread2.start();
+     public ThreadingDemo() {
 
-        Worker1 workerThread1 = new Worker1(valueTask,20);
-        Worker2 workerThread2 = new Worker2(printTask,20);
-        workerThread1.start();
-        workerThread2.start();
-
-//        //Worker2 workerThread2 = new Worker2(taskQueue);
-//
-//        workerThread1.start();
-//        //workerThread2.start();
-
+        for (int i = 0; i < 100 ; i++) {
+            new Thread (()-> {this.var++;}).start();
+            new Thread (()-> {System.out.println(var);}).start();
+        }
 
     }
 }
-
 class ValueTask implements Runnable{
 
     int variable = 0 ;
