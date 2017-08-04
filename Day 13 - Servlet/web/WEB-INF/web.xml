@@ -11,5 +11,5 @@
         <servlet-name>RandomGenerator</servlet-name>
         <url-pattern>/random</url-pattern>
     </servlet-mapping>
-    
+
 </web-app>
