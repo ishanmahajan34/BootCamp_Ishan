@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
@@ -24,9 +25,9 @@ public class CricketMatchServlet extends HttpServlet {
 
 
         list.add(new MatchDataStructure("INDIA", "PAKISTAN", "TEST", 500, 100, "INDIA"));
-        list.add(new MatchDataStructure("INDIA", "ENGLAND", "5050", 400, 130, "INDIA"));
-        list.add(new MatchDataStructure("INDIA", "SRILANKA", "2020", 200, 190, "INDIA"));
-        list.add(new MatchDataStructure("INDIA", "AUSTRALIA", "5050", 300, 160, "INDIA"));
+        list.add(new MatchDataStructure("INDIA", "ENGLAND", "ODI", 400, 130, "INDIA"));
+        list.add(new MatchDataStructure("INDIA", "SRILANKA", "TWENTY", 200, 190, "INDIA"));
+        list.add(new MatchDataStructure("INDIA", "AUSTRALIA", "ODI", 300, 160, "INDIA"));
         list.add(new MatchDataStructure("INDIA", "BANGLADESH", "TEST", 340, 110, "INDIA"));
 
     }
@@ -44,7 +45,9 @@ public class CricketMatchServlet extends HttpServlet {
         String matchType = request.getParameter("matchType");
         PrintWriter printWriter = response.getWriter();
         response.setContentType("text/HTML");
-        MatchDataStructure match = search(teamName1,teamName2,matchType);//new MatchDataStructure("INDIA", "PAKISTAN", "TEST", 500, 100, "INDIA");//search(teamName1,teamName2,matchType).get(0);
+        MatchDataStructure match = search(teamName1,teamName2,matchType);
+
+//        searchTemp(teamName1,teamName2,matchType);
 
         if (match == null) {
             printWriter.write("<h1> NO SUCH MATCH! </h1>");
@@ -59,12 +62,29 @@ public class CricketMatchServlet extends HttpServlet {
         }
     }
 
-    private MatchDataStructure search(String teamName1, String teamName2, String matchType) {
+    public MatchDataStructure search(String teamName1, String teamName2, String matchType) {
 
-        return list.stream().filter(team -> team.getTeamName1().equals(teamName1))
-                .filter(team -> team.getTeamName2().equals(teamName2))
-                .filter(team -> team.getMatchType().equals(matchType))
+        System.out.println(list);
+        System.out.println(teamName1 +", " + teamName2 + ", " + matchType);
+
+        return list.stream().filter(team -> team.getTeamName1().equalsIgnoreCase(teamName1))
+                .filter(team -> team.getTeamName2().equalsIgnoreCase(teamName2))
+                .filter(team -> team.getMatchType().equalsIgnoreCase(matchType))
                 .findFirst().get();
     }
+
+
+
+    private MatchDataStructure searchIterator(String teamName1, String teamName2, String matchType) {
+        Iterator<MatchDataStructure> itr = list.iterator();
+        while (itr.hasNext()){
+            MatchDataStructure matchDataStructure = itr.next();
+            if(teamName1.equals(matchDataStructure.teamName1) || teamName2.equals(matchDataStructure.teamName2) || matchType.equals(matchDataStructure.matchType)){
+                return matchDataStructure;
+            }
+        }
+        return null;
+    }
+
 }
 

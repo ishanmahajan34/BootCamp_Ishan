@@ -1,30 +1,17 @@
-import javax.sql.rowset.CachedRowSet;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import org.junit.Test;
 
 /**
  * Created by mahajani on 8/2/2017.
  */
-public class Prime implements Callable<Integer> {
+public class Prime {
+    public boolean isPrime( int num ) {
+        for (int i = 2; i <= num/2; i = i + 1) {
 
-    int start, end;
-
-    Prime(int start, int end) {
-        this.start = start;
-        this.end = end;
-    }
-
-    @Override
-    public Integer call() throws Exception {
-        int sum = 0 ;
-        for (int i = start; i < end; i++) {
-            sum += i;
+            if(num % i == 0 ) {
+                return false;
+            }
         }
-        return sum;
+        return true;
     }
-
-    
 
 }
